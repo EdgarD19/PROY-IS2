@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ espacio.nombre }}</h2>
+    <p>Propietario: {{ espacio.propietario.username }}</p>
+    <p>Fecha de creación: {{ espacio.fecha_creacion }}</p>
+    <p>Estado: {% if espacio.activo %}Activo{% else %}Inactivo{% endif %}</p>
+    
+    <h3>Usuarios asignados:</h3>
+    <ul>
+        {% for usuario in espacio.usuarios.all %}
+            <li>{{ usuario.username }}</li>
+        {% endfor %}
+    </ul>
+    
+    {% if request.user == espacio.propietario %}
+        <a href="{% url 'cambiar_estado_espacio' espacio.id %}" class="btn btn-{% if espacio.activo %}danger{% else %}success{% endif %}">
+            {% if espacio.activo %}Inactivar{% else %}Activar{% endif %} Espacio
+        </a>
+        <a href="{% url 'agregar_usuarios' espacio.id %}" class="btn btn-info">Agregar Usuarios</a>
+        <a href="{% url 'eliminar_usuarios' espacio.id %}" class="btn btn-warning">Eliminar Usuarios</a>
+    {% endif %}
+    <a href="{% url 'listar_tableros' espacio.id %}" class="btn btn-primary">Ver Tableros</a>
+    <a href="{% url 'espacio_trabajo' %}" class="btn btn-secondary">Volver a la lista</a>
+</div>
+{% endblock %}

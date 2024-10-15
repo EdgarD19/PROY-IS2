@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Inactivar Espacio de Trabajo: {{ espacio.nombre }}</h2>
+    <p>¿Estás seguro de que quieres inactivar este espacio de trabajo? Los usuarios no podrán acceder a él mientras esté inactivo.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Inactivar Espacio</button>
+        <a href="{% url 'detalle_espacio' espacio.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

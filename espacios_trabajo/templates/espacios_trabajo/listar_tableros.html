@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Tableros de {{ espacio.nombre }}</h2>
+    
+    <a href="{% url 'crear_tablero' espacio.id %}" class="btn btn-primary mb-3">Crear Nuevo Tablero</a>
+    
+    {% if tableros %}
+        <div class="row">
+            {% for tablero in tableros %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ tablero.nombre }}</h5>
+                            <p class="card-text">{{ tablero.descripcion|truncatewords:20 }}</p>
+                            <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-primary">Ver Tablero</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No hay tableros en este espacio de trabajo.</p>
+    {% endif %}
+    
+    <a href="{% url 'detalle_espacio' espacio.id %}" class="btn btn-secondary mt-3">Volver al Espacio de Trabajo</a>
+</div>
+{% endblock %}
+
+
+

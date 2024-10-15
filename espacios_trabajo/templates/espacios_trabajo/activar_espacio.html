@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Activar Espacio de Trabajo: {{ espacio.nombre }}</h2>
+    <p>¿Estás seguro de que quieres activar este espacio de trabajo?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Activar Espacio</button>
+        <a href="{% url 'detalle_espacio' espacio.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ tablero.nombre }}</h2>
+    <p>{{ tablero.descripcion }}</p>
+    
+    <a href="{% url 'editar_tablero' tablero.id %}" class="btn btn-primary">Editar Tablero</a>
+    <a href="{% url 'crear_lista' tablero.id %}" class="btn btn-success">Crear Nueva Lista</a>
+    
+    <div class="row mt-4">
+        {% for lista in listas %}
+            <div class="col-md-3 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        {{ lista.nombre }}
+                        <span class="badge bg-secondary">Max WIP: {{ lista.max_wip }}</span>
+                    </div>
+                    <div class="card-body">
+                        <!-- Aquí irán las tarjetas en el futuro -->
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'editar_lista' lista.id %}" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="{% url 'eliminar_lista' lista.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No hay listas en este tablero. ¡Crea una nueva!</p>
+        {% endfor %}
+    </div>
+    
+    <a href="{% url 'listar_tableros' tablero.espacio_trabajo.id %}" class="btn btn-secondary mt-3">Volver a los Tableros</a>
+</div>
+{% endblock %}

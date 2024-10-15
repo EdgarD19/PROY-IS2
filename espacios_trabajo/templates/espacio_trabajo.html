@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+      background-image: url("{% static 'images/fondo.jpg' %}");
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+    }
+    .workspace-title {
+        color: #ffffff;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+        font-size: 3rem;
+        text-align: center;
+        padding: 10px;
+        background-color: rgba(5, 55, 109, 0.7);
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container">
+    <h1 class="workspace-title">My Workspaces</h1>
+    
+    <div class="mt-4">
+        <a href="{% url 'crear_espacio' %}" class="btn btn-primary">Crear Nuevo Espacio</a>
+    </div>
+
+    <div class="row mt-4">
+        {% for espacio in espacios %}
+            <div class="col-md-4 mb-3">
+                <div class="card {% if not espacio.activo %}bg-light{% endif %}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ espacio.nombre }}</h5>
+                        <p class="card-text">Propietario: {{ espacio.propietario.username }}</p>
+                        <p class="card-text">Estado: {% if espacio.activo %}Activo{% else %}Inactivo{% endif %}</p>
+                        <a href="{% url 'detalle_espacio' espacio.id %}" class="btn btn-secondary">Ver Detalles</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No tienes espacios de trabajo. ¡Crea uno nuevo!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

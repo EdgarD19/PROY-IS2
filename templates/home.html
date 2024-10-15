@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: lightblue;
+        }
+    </style>
+    
+    <main class="container py-5">
+        <div class="row">
+            <!-- Cuadro principal alineado a la izquierda -->
+            <div class="col-md-7" style="padding: 4rem; ">
+                <div class="border rounded p-3 bg-light">
+                    <h1 style="color: #05376d; 
+                               font-family: Britannic Bold;
+                               font-weight: bold;"
+                        class="display-5 text-center"
+                    >¡BIENVENIDO A TASKS!</h1>
+                    <p
+                        style="color: rgb(1, 5, 10);
+                               font-family: Britannic Bold;
+                               font-size: 18px;"
+                    >
+                    Tu herramienta definitiva para organizar tareas, proyectos y equipos 
+                    de manera simple y efectiva.
+                    Empieza a organizar, colaborar y alcanzar tus metas con facilidad.
+                    ¡Regístrate hoy y lleva la gestión de tus proyectos a un nuevo nivel!
+                    </p>
+                </div>
+            </div>
+    
+            <!-- Tres cuadros adicionales a la derecha -->
+    <div class="col-md-4">
+          <div class="border rounded p-2 mb-2 bg-light" style="padding: 1rem; font-family: Britannic Bold;">
+              <p style="font-size: 1.1rem; color: #05376d; font-weight: bold; margin-bottom: 0rem;">
+                  Tableros
+              </p>
+              <p>
+                  Los tableros de Tasks mantienen las tareas organizadas y ayudan a que el trabajo avance. 
+                  Podrás verlo todo de un solo vistazo, desde las tareas pendientes a las que ya están terminadas. 
+              </p>
+          </div>
+          <div class="border rounded p-2 mb-2 bg-light" style="padding: 1rem; font-family: Britannic Bold;">
+              <p style="font-size: 1.1rem; color: #05376d; font-weight: bold; margin-bottom: 0rem;">
+                  Listas
+              </p>
+              <p>
+                  Las diferentes fases de una tarea representadas en columnas.
+                  Empieza con algo sencillo como Pendiente, En curso y Listo, o crea un flujo de trabajo a medida de las necesidades de tu equipo.
+              </p>
+          </div>
+          <div class="border rounded p-2 bg-light" style="padding: 1rem; font-family: Britannic Bold;">
+              <p style="font-size: 1.1rem; color: #05376d; font-weight: bold; margin-bottom: 0rem;">
+                  Tarjetas
+              </p>
+              <p>
+                  Las tarjetas representan las tareas y las ideas e incluyen toda la información necesaria para hacer el trabajo. 
+                  A medida que avance, mueve las tarjetas de una lista a otra para mostrar su estado.
+              </p>
+          </div>
+        </div>
+    </main>    
+{% endblock %}
