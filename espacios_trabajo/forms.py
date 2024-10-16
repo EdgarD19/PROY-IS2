@@ -1,5 +1,5 @@
 from django import forms
-from .models import EspacioTrabajo, Tablero, Lista
+from .models import EspacioTrabajo, Tablero, Lista, Tarjeta, Tarea
 from django.contrib.auth.models import User
 
 class EspacioTrabajoForm(forms.ModelForm):
@@ -50,3 +50,25 @@ class ListaForm(forms.ModelForm):
     class Meta:
         model = Lista
         fields = ['nombre', 'max_wip']
+
+class TarjetaForm(forms.ModelForm):
+    class Meta:
+        model = Tarjeta
+        fields = ['nombre', 'descripcion', 'fecha_vencimiento', 'usuario_asignado', 'etiqueta']
+        widgets = {
+            'fecha_vencimiento': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        espacio_trabajo = kwargs.pop('espacio_trabajo', None)
+        super(TarjetaForm, self).__init__(*args, **kwargs)
+        if espacio_trabajo:
+            self.fields['usuario_asignado'].queryset = espacio_trabajo.usuarios.all()
+
+class TareaForm(forms.ModelForm):
+    class Meta:
+        model = Tarea
+        fields = ['descripcion', 'estado', 'vencimiento']
+        widgets = {
+            'vencimiento': forms.DateInput(attrs={'type': 'date'}),
+        }

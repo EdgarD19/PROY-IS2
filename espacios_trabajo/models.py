@@ -33,3 +33,31 @@ class Lista(models.Model):
 
     class Meta:
         ordering = ['orden']
+
+    def esta_sobre_wip(self):
+        return self.tarjetas.count() > self.max_wip
+
+class Tarjeta(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField(blank=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_vencimiento = models.DateField(null=True, blank=True)
+    usuario_asignado = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    etiqueta = models.CharField(max_length=50, blank=True)
+    lista = models.ForeignKey(Lista, on_delete=models.CASCADE, related_name='tarjetas')
+
+    def esta_atrasada(self):
+        from django.utils import timezone
+        return self.fecha_vencimiento and self.fecha_vencimiento < timezone.now().date()
+
+class Tarea(models.Model):
+    ESTADO_CHOICES = [
+        ('open', 'Abierta'),
+        ('closed', 'Cerrada'),
+    ]
+    descripcion = models.TextField()
+    estado = models.CharField(max_length=6, choices=ESTADO_CHOICES, default='open')
+    vencimiento = models.DateField(null=True, blank=True)
+    tarjeta = models.ForeignKey(Tarjeta, on_delete=models.CASCADE, related_name='tareas')
+
+#funciona hasta aca

@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from .models import EspacioTrabajo, Tablero, Lista
-from .forms import EspacioTrabajoForm, AgregarUsuarioForm, EliminarUsuarioForm, TableroForm, ListaForm
+from .models import EspacioTrabajo, Tablero, Lista, Tarjeta
+from .forms import EspacioTrabajoForm, AgregarUsuarioForm, EliminarUsuarioForm, TableroForm, ListaForm, TarjetaForm, TareaForm
+from django.db.models import Q
 
 # Create your views here.
 
@@ -127,8 +128,33 @@ def detalle_tablero(request, tablero_id):
     tablero = get_object_or_404(Tablero, id=tablero_id)
     if request.user not in tablero.espacio_trabajo.usuarios.all():
         return HttpResponseForbidden("No tienes permiso para ver este tablero.")
+    
     listas = tablero.listas.all()
-    return render(request, 'espacios_trabajo/detalle_tablero.html', {'tablero': tablero, 'listas': listas})
+    usuario_filtro = request.GET.get('usuario')
+    etiqueta_filtro = request.GET.get('etiqueta')
+    
+    for lista in listas:
+        lista.sobre_wip = lista.esta_sobre_wip()
+        tarjetas = lista.tarjetas.all()
+        
+        if usuario_filtro:
+            tarjetas = tarjetas.filter(usuario_asignado__username=usuario_filtro)
+        if etiqueta_filtro:
+            tarjetas = tarjetas.filter(etiqueta=etiqueta_filtro)
+        
+        lista.tarjetas_filtradas = tarjetas
+    
+    usuarios = tablero.espacio_trabajo.usuarios.all()
+    etiquetas = Tarjeta.objects.filter(lista__tablero=tablero).values_list('etiqueta', flat=True).distinct()
+    
+    return render(request, 'espacios_trabajo/detalle_tablero.html', {
+        'tablero': tablero,
+        'listas': listas,
+        'usuarios': usuarios,
+        'etiquetas': etiquetas,
+        'usuario_filtro': usuario_filtro,
+        'etiqueta_filtro': etiqueta_filtro,
+    })
 
 @login_required
 def crear_lista(request, tablero_id):
@@ -192,3 +218,54 @@ def eliminar_lista(request, lista_id):
         return redirect('detalle_tablero', tablero_id=tablero.id)
     
     return render(request, 'espacios_trabajo/confirmar_eliminar_lista.html', {'lista': lista, 'tablero': tablero})
+
+@login_required
+def crear_tarjeta(request, lista_id):
+    lista = get_object_or_404(Lista, id=lista_id)
+    espacio_trabajo = lista.tablero.espacio_trabajo
+    if request.method == 'POST':
+        form = TarjetaForm(request.POST, espacio_trabajo=espacio_trabajo)
+        if form.is_valid():
+            tarjeta = form.save(commit=False)
+            tarjeta.lista = lista
+            tarjeta.save()
+            return redirect('detalle_tablero', tablero_id=lista.tablero.id)
+    else:
+        form = TarjetaForm(espacio_trabajo=espacio_trabajo)
+    return render(request, 'espacios_trabajo/crear_tarjeta.html', {'form': form, 'lista': lista})
+
+@login_required
+def editar_tarjeta(request, tarjeta_id):
+    tarjeta = get_object_or_404(Tarjeta, id=tarjeta_id)
+    espacio_trabajo = tarjeta.lista.tablero.espacio_trabajo
+    if request.method == 'POST':
+        form = TarjetaForm(request.POST, instance=tarjeta, espacio_trabajo=espacio_trabajo)
+        if form.is_valid():
+            form.save()
+            return redirect('detalle_tablero', tablero_id=tarjeta.lista.tablero.id)
+    else:
+        form = TarjetaForm(instance=tarjeta, espacio_trabajo=espacio_trabajo)
+    return render(request, 'espacios_trabajo/editar_tarjeta.html', {'form': form, 'tarjeta': tarjeta})
+
+@login_required
+def eliminar_tarjeta(request, tarjeta_id):
+    tarjeta = get_object_or_404(Tarjeta, id=tarjeta_id)
+    if request.method == 'POST':
+        tablero_id = tarjeta.lista.tablero.id
+        tarjeta.delete()
+        return redirect('detalle_tablero', tablero_id=tablero_id)
+    return render(request, 'espacios_trabajo/confirmar_eliminar_tarjeta.html', {'tarjeta': tarjeta})
+
+@login_required
+def agregar_tarea(request, tarjeta_id):
+    tarjeta = get_object_or_404(Tarjeta, id=tarjeta_id)
+    if request.method == 'POST':
+        form = TareaForm(request.POST)
+        if form.is_valid():
+            tarea = form.save(commit=False)
+            tarea.tarjeta = tarjeta
+            tarea.save()
+            return redirect('detalle_tarjeta', tarjeta_id=tarjeta.id)
+    else:
+        form = TareaForm()
+    return render(request, 'espacios_trabajo/agregar_tarea.html', {'form': form, 'tarjeta': tarjeta})
