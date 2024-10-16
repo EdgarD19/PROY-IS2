@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from .models import EspacioTrabajo, Tablero, Lista, Tarjeta
-from .forms import EspacioTrabajoForm, AgregarUsuarioForm, EliminarUsuarioForm, TableroForm, ListaForm, TarjetaForm, TareaForm
+from .forms import EspacioTrabajoForm, AgregarUsuarioForm, EliminarUsuarioForm, TableroForm, ListaForm, TarjetaForm
 from django.db.models import Q
 
 # Create your views here.
@@ -255,17 +255,3 @@ def eliminar_tarjeta(request, tarjeta_id):
         tarjeta.delete()
         return redirect('detalle_tablero', tablero_id=tablero_id)
     return render(request, 'espacios_trabajo/confirmar_eliminar_tarjeta.html', {'tarjeta': tarjeta})
-
-@login_required
-def agregar_tarea(request, tarjeta_id):
-    tarjeta = get_object_or_404(Tarjeta, id=tarjeta_id)
-    if request.method == 'POST':
-        form = TareaForm(request.POST)
-        if form.is_valid():
-            tarea = form.save(commit=False)
-            tarea.tarjeta = tarjeta
-            tarea.save()
-            return redirect('detalle_tarjeta', tarjeta_id=tarjeta.id)
-    else:
-        form = TareaForm()
-    return render(request, 'espacios_trabajo/agregar_tarea.html', {'form': form, 'tarjeta': tarjeta})

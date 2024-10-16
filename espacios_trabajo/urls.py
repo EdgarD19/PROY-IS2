@@ -22,5 +22,5 @@ urlpatterns = [
     path('lista/<int:lista_id>/crear-tarjeta/', views.crear_tarjeta, name='crear_tarjeta'),
     path('tarjeta/<int:tarjeta_id>/editar/', views.editar_tarjeta, name='editar_tarjeta'),
     path('tarjeta/<int:tarjeta_id>/eliminar/', views.eliminar_tarjeta, name='eliminar_tarjeta'),
-    path('tarjeta/<int:tarjeta_id>/agregar-tarea/', views.agregar_tarea, name='agregar_tarea'),
+   
 ]

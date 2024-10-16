@@ -50,14 +50,4 @@ class Tarjeta(models.Model):
         from django.utils import timezone
         return self.fecha_vencimiento and self.fecha_vencimiento < timezone.now().date()
 
-class Tarea(models.Model):
-    ESTADO_CHOICES = [
-        ('open', 'Abierta'),
-        ('closed', 'Cerrada'),
-    ]
-    descripcion = models.TextField()
-    estado = models.CharField(max_length=6, choices=ESTADO_CHOICES, default='open')
-    vencimiento = models.DateField(null=True, blank=True)
-    tarjeta = models.ForeignKey(Tarjeta, on_delete=models.CASCADE, related_name='tareas')
-
 #funciona hasta aca

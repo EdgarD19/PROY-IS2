@@ -1,5 +1,5 @@
 from django import forms
-from .models import EspacioTrabajo, Tablero, Lista, Tarjeta, Tarea
+from .models import EspacioTrabajo, Tablero, Lista, Tarjeta
 from django.contrib.auth.models import User
 
 class EspacioTrabajoForm(forms.ModelForm):
@@ -64,11 +64,3 @@ class TarjetaForm(forms.ModelForm):
         super(TarjetaForm, self).__init__(*args, **kwargs)
         if espacio_trabajo:
             self.fields['usuario_asignado'].queryset = espacio_trabajo.usuarios.all()
-
-class TareaForm(forms.ModelForm):
-    class Meta:
-        model = Tarea
-        fields = ['descripcion', 'estado', 'vencimiento']
-        widgets = {
-            'vencimiento': forms.DateInput(attrs={'type': 'date'}),
-        }
