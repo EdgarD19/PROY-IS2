@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from .models import EspacioTrabajo, Tablero, Lista, Tarjeta
 from .forms import EspacioTrabajoForm, AgregarUsuarioForm, EliminarUsuarioForm, TableroForm, ListaForm, TarjetaForm
 from django.db.models import Q
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 
@@ -255,3 +256,19 @@ def eliminar_tarjeta(request, tarjeta_id):
         tarjeta.delete()
         return redirect('detalle_tablero', tablero_id=tablero_id)
     return render(request, 'espacios_trabajo/confirmar_eliminar_tarjeta.html', {'tarjeta': tarjeta})
+
+@require_POST
+def mover_tarjeta(request):
+    tarjeta_id = request.POST.get('tarjeta_id')
+    nueva_lista_id = request.POST.get('nueva_lista_id')
+    
+    try:
+        tarjeta = Tarjeta.objects.get(id=tarjeta_id)
+        nueva_lista = Lista.objects.get(id=nueva_lista_id)
+        
+        tarjeta.lista = nueva_lista
+        tarjeta.save()
+        
+        return JsonResponse({'status': 'success'})
+    except (Tarjeta.DoesNotExist, Lista.DoesNotExist):
+        return JsonResponse({'status': 'error', 'message': 'Tarjeta o lista no encontrada'}, status=400)

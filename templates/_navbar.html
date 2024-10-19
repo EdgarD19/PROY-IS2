@@ -17,7 +17,7 @@
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Bienvenido {{ user.username }}</a> <!-- Mensaje de bienvenida -->
+                    <a class="nav-link" href="#">Bienvenido/a {{ user.username }}</a> <!-- Mensaje de bienvenida -->
                 </li>
                 <li class="nav-item"></li>
                     <a class="nav-link " href="{% url 'espacio_trabajo' %}">My Workspaces</a>

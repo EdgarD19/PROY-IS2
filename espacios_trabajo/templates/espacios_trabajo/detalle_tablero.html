@@ -37,7 +37,7 @@
         </div>
     </form>
     
-    <div class="row mt-4">
+    <div class="row mt-4" id="listas-container">
         {% for lista in listas %}
             <div class="col-md-3 mb-3">
                 <div class="card {% if lista.sobre_wip %}bg-danger text-white{% else %}bg-light{% endif %}">
@@ -51,21 +51,23 @@
                                 ¡Alerta! Se ha superado el límite WIP.
                             </div>
                         {% endif %}
-                        {% for tarjeta in lista.tarjetas_filtradas %}
-                            <div class="card mb-2 {% if tarjeta.esta_atrasada %}bg-warning{% endif %}">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ tarjeta.nombre }}</h5>
-                                    <p class="card-text">{{ tarjeta.descripcion|truncatewords:10 }}</p>
-                                    <p>Vencimiento: {{ tarjeta.fecha_vencimiento|default:"No establecido" }}</p>
-                                    <p>Asignado a: {{ tarjeta.usuario_asignado|default:"No asignado" }}</p>
-                                    {% if tarjeta.etiqueta %}
-                                        <span class="badge bg-info">{{ tarjeta.etiqueta }}</span>
-                                    {% endif %}
-                                    <a href="{% url 'editar_tarjeta' tarjeta.id %}" class="btn btn-sm btn-primary">Editar</a>
-                                    <a href="{% url 'eliminar_tarjeta' tarjeta.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                        <div class="tarjetas-lista" data-lista-id="{{ lista.id }}">
+                            {% for tarjeta in lista.tarjetas_filtradas %}
+                                <div class="card mb-2 {% if tarjeta.esta_atrasada %}bg-warning{% endif %}" data-tarjeta-id="{{ tarjeta.id }}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ tarjeta.nombre }}</h5>
+                                        <p class="card-text">{{ tarjeta.descripcion|truncatewords:10 }}</p>
+                                        <p>Vencimiento: {{ tarjeta.fecha_vencimiento|default:"No establecido" }}</p>
+                                        <p>Asignado a: {{ tarjeta.usuario_asignado|default:"No asignado" }}</p>
+                                        {% if tarjeta.etiqueta %}
+                                            <span class="badge bg-info">{{ tarjeta.etiqueta }}</span>
+                                        {% endif %}
+                                        <a href="{% url 'editar_tarjeta' tarjeta.id %}" class="btn btn-sm btn-primary">Editar</a>
+                                        <a href="{% url 'eliminar_tarjeta' tarjeta.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                         <a href="{% url 'crear_tarjeta' lista.id %}" class="btn btn-sm btn-success mt-2">Agregar Tarjeta</a>
                     </div>
                     <div class="card-footer">
@@ -81,4 +83,40 @@
     
     <a href="{% url 'listar_tableros' tablero.espacio_trabajo.id %}" class="btn btn-secondary mt-3">Volver a los Tableros</a>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        var listas = document.querySelectorAll('.tarjetas-lista');
+        
+        listas.forEach(function(lista) {
+            new Sortable(lista, {
+                group: 'tarjetas',
+                animation: 150,
+                onEnd: function(evt) {
+                    var tarjetaId = evt.item.getAttribute('data-tarjeta-id');
+                    var nuevaListaId = evt.to.getAttribute('data-lista-id');
+                    
+                    // Aquí haremos la llamada AJAX para actualizar la posición de la tarjeta
+                    $.ajax({
+                        url: '/espacio_trabajo/mover_tarjeta/',
+                        method: 'POST',
+                        data: {
+                            tarjeta_id: tarjetaId,
+                            nueva_lista_id: nuevaListaId,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function(response) {
+                            console.log('Tarjeta movida exitosamente');
+                        },
+                        error: function(error) {
+                            console.error('Error al mover la tarjeta:', error);
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
