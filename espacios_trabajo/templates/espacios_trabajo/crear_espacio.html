@@ -2,11 +2,86 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Crear Nuevo Espacio de Trabajo</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Crear Espacio</button>
-    </form>
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="h4 mb-0">Crear Nuevo Espacio de Trabajo</h3>
+        </div>
+        <div class="card-body p-4">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <!-- Campos del formulario -->
+                <div class="form-group mb-3">
+                    <label for="id_nombre" class="form-label">Nombre del Espacio</label>
+                    {{ form.nombre }}
+                    <div class="invalid-feedback">
+                        Por favor, ingresa un nombre para el espacio de trabajo.
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="id_usuarios" class="form-label">Usuarios</label>
+                    {{ form.usuarios }}
+                    <div class="invalid-feedback">
+                        Selecciona al menos un usuario.
+                    </div>
+                </div>
+
+                <!-- Botón de envío -->
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn btn-primary px-4">Crear Espacio</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<style>
+    .container .card {
+        max-width: 600px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .container .card-header {
+        border-bottom: none;
+        background: linear-gradient(90deg, #05376d, #0a6cd3);
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+
+    .container .form-group label {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .container .form-control {
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    .container .form-control:focus {
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        border-color: #80bdff;
+    }
+
+    .container .btn-primary {
+        background: linear-gradient(90deg, #05376d, #0a6cd3);
+        border: none;
+        font-weight: bold;
+        font-size: 1rem;
+        color: #ffffff;
+        border-radius: 8px;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .container .btn-primary:hover {
+        background: linear-gradient(90deg, #0a6cd3, #05376d);
+        transform: scale(1.01); /* Aumenta el tamaño del botón */
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Agrega una sombra al pasar el cursor */
+    }
+
 {% endblock %}

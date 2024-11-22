@@ -8,6 +8,12 @@ class EspacioTrabajoForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         required=False
     )
+ 
+    def __init__(self, *args, **kwargs):
+        usuario_actual = kwargs.pop('usuario_actual', None)
+        super(EspacioTrabajoForm, self).__init__(*args, **kwargs)
+        if usuario_actual:
+            self.fields['usuarios'].queryset = User.objects.exclude(id=usuario_actual.id)
 
     class Meta:
         model = EspacioTrabajo

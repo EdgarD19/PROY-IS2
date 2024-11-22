@@ -14,13 +14,17 @@ urlpatterns = [
     path('<int:espacio_id>/crear-tablero/', views.crear_tablero, name='crear_tablero'),
     path('tablero/<int:tablero_id>/', views.detalle_tablero, name='detalle_tablero'),
     path('tablero/<int:tablero_id>/editar/', views.editar_tablero, name='editar_tablero'),
+    path('tablero/<int:tablero_id>/eliminar/', views.eliminar_tablero, name='eliminar_tablero'),
     #listas
     path('tablero/<int:tablero_id>/crear-lista/', views.crear_lista, name='crear_lista'),
     path('lista/<int:lista_id>/editar/', views.editar_lista, name='editar_lista'),
     path('lista/<int:lista_id>/eliminar/', views.eliminar_lista, name='eliminar_lista'),
+    path('mover_lista/', views.mover_lista, name='mover_lista'),
     #tarjetas
     path('lista/<int:lista_id>/crear-tarjeta/', views.crear_tarjeta, name='crear_tarjeta'),
     path('tarjeta/<int:tarjeta_id>/editar/', views.editar_tarjeta, name='editar_tarjeta'),
     path('tarjeta/<int:tarjeta_id>/eliminar/', views.eliminar_tarjeta, name='eliminar_tarjeta'),
     path('mover_tarjeta/', views.mover_tarjeta, name='mover_tarjeta'),
+    #dashboard
+    path('tablero/<int:tablero_id>/dashboard/', views.dashboard_tablero, name='dashboard_tablero'),
 ]

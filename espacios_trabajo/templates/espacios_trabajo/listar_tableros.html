@@ -15,13 +15,14 @@
                             <h5 class="card-title">{{ tablero.nombre }}</h5>
                             <p class="card-text">{{ tablero.descripcion|truncatewords:20 }}</p>
                             <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-primary">Ver Tablero</a>
+                            <a href="{% url 'eliminar_tablero' tablero.id %}" class="btn btn-danger">Eliminar tablero</a>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <p>No hay tableros en este espacio de trabajo.</p>
+        <p><strong>No hay tableros en este espacio de trabajo.</strong></p>
     {% endif %}
     
     <a href="{% url 'detalle_espacio' espacio.id %}" class="btn btn-secondary mt-3">Volver al Espacio de Trabajo</a>

@@ -4,48 +4,101 @@
 
 {% block content %}
 <style>
-    body {
-      background-image: url("{% static 'images/fondo.jpg' %}");
-      background-size: cover;
-      background-attachment: fixed;
-      background-position: center;
-    }
     .workspace-title {
         color: #ffffff;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        font-family: 'Arial', sans-serif;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        font-family: 'Poppins', sans-serif;
         font-weight: bold;
-        font-size: 3rem;
+        font-size: 2.5rem;
         text-align: center;
-        padding: 10px;
-        background-color: rgba(5, 55, 109, 0.7);
+        padding: 15px;
+        background: linear-gradient(90deg, #05376d, #0a6cd3);
         border-radius: 10px;
         margin-top: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+        color: #05376d;
+        font-weight: bold;
+        text-transform: capitalize;
+        font-size: 1.25rem;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: #555555;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    .btn-outline-primary {
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #0a6cd3;
+        color: #ffffff;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     }
 </style>
+
 
 <div class="container">
     <h1 class="workspace-title">My Workspaces</h1>
     
-    <div class="mt-4">
-        <a href="{% url 'crear_espacio' %}" class="btn btn-primary">Crear Nuevo Espacio</a>
+    <div class="mt-4 text-center">
+        <a href="{% url 'crear_espacio' %}" class="btn btn-primary btn-lg">
+            <i class="bi bi-plus-circle"></i> Crear Nuevo Espacio
+        </a>
     </div>
 
-    <div class="row mt-4">
+    <div class="row mt-5">
         {% for espacio in espacios %}
-            <div class="col-md-4 mb-3">
-                <div class="card {% if not espacio.activo %}bg-light{% endif %}">
-                    <div class="card-body">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0 {% if not espacio.activo %}bg-light{% else %}bg-white{% endif %} rounded">
+                    <div class="card-body text-center">
                         <h5 class="card-title">{{ espacio.nombre }}</h5>
-                        <p class="card-text">Propietario: {{ espacio.propietario.username }}</p>
-                        <p class="card-text">Estado: {% if espacio.activo %}Activo{% else %}Inactivo{% endif %}</p>
-                        <a href="{% url 'detalle_espacio' espacio.id %}" class="btn btn-secondary">Ver Detalles</a>
+                        <p class="card-text">
+                            <i class="bi bi-person-circle"></i> 
+                            Propietario: <strong>{{ espacio.propietario.username }}</strong>
+                        </p>
+                        <p class="card-text">
+                            Estado: 
+                            {% if espacio.activo %}
+                                <span class="badge bg-success"><i class="bi bi-check-circle"></i> Activo</span>
+                            {% else %}
+                                <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Inactivo</span>
+                            {% endif %}
+                        </p>
+                        <a href="{% url 'detalle_espacio' espacio.id %}" 
+                           class="btn btn-outline-primary mt-3"
+                           style="width: 100%;">
+                            <i class="bi bi-eye"></i> Ver Detalles
+                        </a>
                     </div>
                 </div>
             </div>
         {% empty %}
-            <p>No tienes espacios de trabajo. ¡Crea uno nuevo!</p>
+            <p class="text-center mt-4">No tienes espacios de trabajo. 
+                <a href="{% url 'crear_espacio' %}" class="text-primary">¡Crea uno nuevo!</a>
+            </p>
         {% endfor %}
     </div>
 </div>
+
 {% endblock %}

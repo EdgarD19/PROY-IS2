@@ -2,12 +2,107 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Editar Lista: {{ lista.nombre }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="h4 mb-0">Editar Lista: {{ lista.nombre }}</h3>
+        </div>
+        <div class="card-body p-4">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+
+                <!-- Campo de Nombre -->
+                <div class="form-group mb-3">
+                    <label for="id_nombre" class="form-label">Nombre de la Lista</label>
+                    {{ form.nombre }}
+                    <div class="invalid-feedback">
+                        Por favor, ingresa un nombre para la lista.
+                    </div>
+                </div>
+
+                <!-- Campo para Máximo WIP (trabajo en progreso) -->
+                <div class="form-group mb-3">
+                    <label for="id_max_wip" class="form-label">Máximo WIP (límite de tareas)</label>
+                    {{ form.max_wip }}
+                    <div class="invalid-feedback">
+                        Por favor, ingresa un número válido para el límite de tareas.
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="d-flex justify-content-end mt-4 gap-2">
+                    <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
+                    <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-outline-secondary px-4">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const maxWipInput = document.getElementById('id_max_wip');
+        
+        // Añadir atributos al campo
+        maxWipInput.setAttribute('type', 'number');
+        maxWipInput.setAttribute('min', '0');
+        maxWipInput.setAttribute('step', '1');
+        
+        // Validación para asegurar solo números positivos
+        maxWipInput.addEventListener('input', function(e) {
+            let value = parseInt(this.value);
+            if (value < 0) {
+                this.value = 0;
+            }
+            // Eliminar decimales
+            this.value = Math.floor(Math.abs(value));
+        });
+
+        // Prevenir entrada de valores negativos con el teclado
+        maxWipInput.addEventListener('keydown', function(e) {
+            if (e.key === '-' || e.key === '+' || e.key === 'e' || e.key === 'E') {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+
+<style>
+    /* Estilos para el formulario */
+    .container .card {
+        max-width: 600px;
+        border-radius: 0.75rem;
+    }
+
+    .container .form-group label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .container .form-control:focus {
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        border-color: #80bdff;
+    }
+
+    .container .card-header {
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .container .btn-primary,
+    .container .btn-outline-secondary {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .container .btn-outline-secondary:hover {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    /* Estilo específico para el campo max_wip */
+    #id_max_wip {
+        max-width: 60px;
+        text-align: center;
+    }
+</style>
+
 {% endblock %}

@@ -1,13 +1,90 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2>Editar Tarjeta: {{ tarjeta.nombre }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <a href="{% url 'detalle_tablero' tarjeta.lista.tablero.id %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+<div class="container mt-5" id="editar-tarjeta-formulario">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h4 mb-0">Editar Tarjeta: {{ tarjeta.nombre }}</h2>   
+        </div>
+        <div class="card-body p-4">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <!-- Nombre -->
+                <div class="form-group mb-3">
+                    <label for="id_nombre" class="form-label">Nombre</label>
+                    <input type="text" name="nombre" maxlength="100" required id="id_nombre" class="form-control" value="{{ tarjeta.nombre }}">
+                    <div class="invalid-feedback">
+                        Por favor, ingresa un nombre válido.
+                    </div>
+                </div>
+                
+                <!-- Descripción -->
+                <div class="form-group mb-3">
+                    <label for="id_descripcion" class="form-label">Descripción</label>
+                    <textarea name="descripcion" cols="40" rows="3" id="id_descripcion" class="form-control">{{ tarjeta.descripcion }}</textarea>
+                    <div class="invalid-feedback">
+                        Por favor, ingresa una descripción válida.
+                    </div>
+                </div>
+
+                <!-- Fecha Vencimiento -->
+                <div class="form-group mb-3">
+                    <label for="id_fecha_vencimiento" class="form-label">Fecha vencimiento</label>
+                    <input type="date" name="fecha_vencimiento" id="id_fecha_vencimiento" class="form-control" value="{{ tarjeta.fecha_vencimiento|date:'Y-m-d' }}">
+                </div>
+                
+                <!-- Usuario asignado -->
+                <div class="form-group mb-3">
+                    <label for="{{ form.usuario_asignado.id_for_label }}" class="form-label">Usuario asignado</label>
+                    {{ form.usuario_asignado }}
+                </div>
+
+                <!-- Etiqueta -->
+                <div class="form-group mb-4">
+                    <label for="id_etiqueta" class="form-label">Etiqueta</label>
+                    <input type="text" name="etiqueta" maxlength="50" id="id_etiqueta" class="form-control" value="{{ tarjeta.etiqueta }}">
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex justify-content-end mt-4 gap-3">
+                    <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
+                    <a href="{% url 'detalle_tablero' tarjeta.lista.tablero.id %}" class="btn btn-outline-secondary px-4">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+<style>
+    /* Estilos específicos del formulario */
+    #editar-tarjeta-formulario .card {
+        max-width: 500px;
+    }
+
+    #editar-tarjeta-formulario .form-group label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    #editar-tarjeta-formulario .form-control:focus {
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        border-color: #80bdff;
+    }
+
+    #editar-tarjeta-formulario .card-header {
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #editar-tarjeta-formulario .card {
+        border-radius: 0.75rem;
+    }
+
+    #editar-tarjeta-formulario .btn-primary,
+    #editar-tarjeta-formulario .btn-outline-secondary {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 {% endblock %}

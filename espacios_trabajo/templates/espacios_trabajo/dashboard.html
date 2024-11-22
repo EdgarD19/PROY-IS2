@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Dashboard - {{ tablero.nombre }}</h2>
+    <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-secondary mt-3 ">Volver al Tablero</a>
+    
+    <div class="row mt-4">
+        <!-- Columna de títulos y gráficos en la mitad izquierda -->
+        <div class="col-md-6">
+            <!-- Distribución de Tareas -->
+            <div class="card mb-3">
+                <div class="card-header" onclick="toggleChart('tareasDistribucionChart')">
+                    Distribución de Tareas por Estado
+                </div>
+                <div class="card-body chart-container" id="tareasDistribucionContainer">
+                    <canvas id="tareasDistribucionChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Tareas por Usuario Asignado -->
+            <div class="card mb-3">
+                <div class="card-header" onclick="toggleChart('tareasUsuarioChart')">
+                    Tareas por Usuario Asignado
+                </div>
+                <div class="card-body chart-container" id="tareasUsuarioContainer">
+                    <canvas id="tareasUsuarioChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Estado de Vencimiento de Tareas -->
+            <div class="card mb-3">
+                <div class="card-header" onclick="toggleChart('tareasAtrasadasChart')">
+                    Estado de Vencimiento de Tareas
+                </div>
+                <div class="card-body chart-container" id="tareasAtrasadasContainer">
+                    <canvas id="tareasAtrasadasChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+<style>
+    .chart-container {
+        display: none; /* Ocultar los gráficos inicialmente */
+    }
+    .card-header {
+        cursor: pointer; /* Indicar que es clickable */
+        font-weight: bold;
+        color: #007bff;
+    }
+</style>
+
+<script>
+    function toggleChart(chartId) {
+        // Alternar visibilidad del gráfico al hacer clic en el título
+        const chartContainer = document.getElementById(chartId).parentElement;
+        chartContainer.style.display = chartContainer.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Configuración de los gráficos
+    const distribucionData = {{ distribucion_tareas|safe }};
+    const usuariosData = {{ tareas_por_usuario|safe }};
+    const vencimientoData = {{ estado_vencimiento|safe }};
+
+    // Gráfico de distribución de tareas
+    new Chart(document.getElementById('tareasDistribucionChart'), {
+        type: 'bar',
+        data: {
+            labels: distribucionData.labels,
+            datasets: [{
+                label: 'Número de tareas',
+                data: distribucionData.data,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // Gráfico de tareas por usuario
+    new Chart(document.getElementById('tareasUsuarioChart'), {
+        type: 'pie',
+        data: {
+            labels: usuariosData.labels,
+            datasets: [{
+                data: usuariosData.data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                ]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    // Gráfico de tareas atrasadas
+    new Chart(document.getElementById('tareasAtrasadasChart'), {
+        type: 'pie',
+        data: {
+            labels: vencimientoData.labels,
+            datasets: [{
+                data: vencimientoData.data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(255, 206, 86, 0.5)'
+                ]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
+
+{% endblock %} 

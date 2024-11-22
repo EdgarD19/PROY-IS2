@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect #redirecciona la pagina 
 from django.db import IntegrityError #maneja los errores de integridad de la base de datos
 from django.contrib.auth.decorators import login_required #decorador para verificar si el usuario esta autenticado
+from django.contrib.auth import get_user_model, login
+from django.contrib.auth.backends import ModelBackend  # Añade esta importación
 
 def home(request):
     return render(request, 'home.html')
@@ -25,7 +27,7 @@ def signup(request):
                 #'username' y 'password1' son los nombres de los campos en el formulario de registro que se inspeccionan en el html(verificar con el inspector del navegador)
                 user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1']) 
                 user.save() #guarda el usuario en la base de datos
-                login(request, user) #crea la cookie y utiliza la informacion del user 
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend') 
                 return redirect('espacio_trabajo') 
             except IntegrityError:
                 return render(request, 'signup.html', 

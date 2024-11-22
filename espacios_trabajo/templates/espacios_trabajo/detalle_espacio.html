@@ -2,26 +2,110 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>{{ espacio.nombre }}</h2>
-    <p>Propietario: {{ espacio.propietario.username }}</p>
-    <p>Fecha de creación: {{ espacio.fecha_creacion }}</p>
-    <p>Estado: {% if espacio.activo %}Activo{% else %}Inactivo{% endif %}</p>
-    
-    <h3>Usuarios asignados:</h3>
-    <ul>
-        {% for usuario in espacio.usuarios.all %}
-            <li>{{ usuario.username }}</li>
-        {% endfor %}
-    </ul>
-    
-    {% if request.user == espacio.propietario %}
-        <a href="{% url 'cambiar_estado_espacio' espacio.id %}" class="btn btn-{% if espacio.activo %}danger{% else %}success{% endif %}">
-            {% if espacio.activo %}Inactivar{% else %}Activar{% endif %} Espacio
-        </a>
-        <a href="{% url 'agregar_usuarios' espacio.id %}" class="btn btn-info">Agregar Usuarios</a>
-        <a href="{% url 'eliminar_usuarios' espacio.id %}" class="btn btn-warning">Eliminar Usuarios</a>
-    {% endif %}
-    <a href="{% url 'listar_tableros' espacio.id %}" class="btn btn-primary">Ver Tableros</a>
-    <a href="{% url 'espacio_trabajo' %}" class="btn btn-secondary">Volver a los espacios de trabajo</a>
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <!-- Título del espacio de trabajo -->
+            <h2 class="text-primary mb-3" style="font-family: 'Arial', sans-serif; font-weight: bold; text-align: left;">{{ espacio.nombre }}</h2>
+            
+            <!-- Detalles del espacio de trabajo -->
+            <div class="mb-4" style="font-size: 1.1rem; color: #555;">
+                <p><strong>Propietario:</strong> {{ espacio.propietario.username }}</p>
+                <p><strong>Fecha de creación:</strong> {{ espacio.fecha_creacion }}</p>
+                <p style="color: {% if espacio.activo %}#28a745{% else %}#dc3545{% endif %};"><strong>Estado:</strong> {% if espacio.activo %}Activo{% else %}Inactivo{% endif %}</p>
+            </div>
+
+            <!-- Usuarios asignados -->
+            <h3 class="mb-3" style="font-size: 1.2rem; font-weight: bold; color: #444;">Usuarios asignados:</h3>
+            <ul class="list-group mb-4">
+                {% for usuario in espacio.usuarios.all %}
+                    {% if usuario != espacio.propietario %} 
+                        <li class="list-group-item border-0 mb-2" style="background-color: #f8f9fa; border-radius: 8px; font-size: 1rem; padding: 12px; color: #333;">{{ usuario.username }}</li>
+                    {% endif %}
+                {% endfor %}    
+            </ul>
+
+            <!-- Acciones -->
+            <div class="d-flex flex-column gap-3 mt-4">
+                <a href="{% url 'listar_tableros' espacio.id %}" class="btn btn-primary btn-lg">Ver Tableros</a>
+                
+                {% if request.user == espacio.propietario %}
+                    <a href="{% url 'agregar_usuarios' espacio.id %}" class="btn btn-info btn-lg">Agregar Usuarios</a>
+                    <a href="{% url 'eliminar_usuarios' espacio.id %}" class="btn btn-warning btn-lg">Eliminar Usuarios</a>
+                {% endif %}
+            </div>
+            
+            <!-- Botones de navegación -->
+            <div class="d-flex justify-content-between mt-4 mb-4">
+                <a href="{% url 'espacio_trabajo' %}" class="btn btn-secondary btn-lg">Volver a los espacios de trabajo</a>
+                <a href="{% url 'cambiar_estado_espacio' espacio.id %}" class="btn btn-{% if espacio.activo %}danger{% else %}success{% endif %} btn-lg">
+                    {% if espacio.activo %}Inactivar{% else %}Activar{% endif %} Espacio
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    /* Mejoras de diseño */
+    .container .row {
+        margin-top: 40px;
+    }
+
+    .container .col-md-8 {
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .container h2, .container h3 {
+        font-weight: 600;
+    }
+
+    .container .btn {
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .container .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container .list-group-item {
+        transition: all 0.3s ease;
+    }
+
+    .container .list-group-item:hover {
+        background-color: #e9ecef;
+    }
+
+    /* Colores suaves para el texto */
+    .container p {
+        color: #555;
+    }
+
+    /* Efecto hover en botones secundarios */
+    .container .btn-secondary:hover {
+        background-color: #6c757d;
+        transform: scale(1.05);
+    }
+
+    .container .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .container .btn-info:hover {
+        background-color: #0dcaf0;
+    }
+
+    .container .btn-warning:hover {
+        background-color: #d39e00;
+    }
+</style>
+
+
 {% endblock %}

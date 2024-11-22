@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('auth_custom.urls')),
     path('espacio_trabajo/', include('espacios_trabajo.urls')),
+    path('accounts/', include('allauth.urls')),  # Añade esta línea
 ]

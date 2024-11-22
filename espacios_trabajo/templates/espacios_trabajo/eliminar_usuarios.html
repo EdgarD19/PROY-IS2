@@ -2,12 +2,22 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Eliminar Usuarios de {{ espacio.nombre }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-danger">Eliminar Usuarios</button>
-        <a href="{% url 'detalle_espacio' espacio.id %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+    <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-danger text-white">
+            <h2 class="text-center">Eliminar Usuarios de {{ espacio.nombre }}</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-danger">Eliminar Usuarios</button>
+                    <a href="{% url 'detalle_espacio' espacio.id %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
+
 {% endblock %}

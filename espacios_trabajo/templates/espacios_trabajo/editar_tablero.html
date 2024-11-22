@@ -1,13 +1,73 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2>Editar Tablero: {{ tablero.nombre }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+<div class="container mt-5" id="editar-tablero-formulario">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h4 mb-0">Editar Tablero: {{ tablero.nombre }}</h2>
+        </div>
+        <div class="card-body p-4">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+        
+                <!-- Campo de nombre -->
+                <div class="form-group mb-3">
+                    <label for="id_nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="id_nombre" name="nombre" value="{{ tablero.nombre }}" required>
+                    <div class="invalid-feedback">
+                        Por favor, ingresa un nombre válido.
+                    </div>
+                </div>
+        
+                <!-- Campo de descripción -->
+                <div class="form-group mb-3">
+                    <label for="id_descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="id_descripcion" name="descripcion" rows="3" required>{{ tablero.descripcion }}</textarea>
+                    <div class="invalid-feedback">
+                        Por favor, ingresa una descripción válida.
+                    </div>
+                </div>
+        
+                <!-- Botones de acción -->
+                <div class="d-flex justify-content-end mt-4 gap-3">
+                    <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
+                    <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-outline-secondary px-4">Cancelar</a>
+                </div>
+            </form>
+        </div>
+        
+    </div>
 </div>
+
+<style>
+    /* Estilos específicos del formulario */
+    #editar-tablero-formulario .card {
+        max-width: 500px;
+    }
+
+    #editar-tablero-formulario .form-group label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    #editar-tablero-formulario .form-control:focus {
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        border-color: #80bdff;
+    }
+
+    #editar-tablero-formulario .card-header {
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #editar-tablero-formulario .card {
+        border-radius: 0.75rem;
+    }
+
+    #editar-tablero-formulario .btn-primary,
+    #editar-tablero-formulario .btn-outline-secondary {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
 {% endblock %}
