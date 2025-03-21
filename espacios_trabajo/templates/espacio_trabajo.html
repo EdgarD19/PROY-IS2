@@ -94,9 +94,14 @@
                 </div>
             </div>
         {% empty %}
-            <p class="text-center mt-4">No tienes espacios de trabajo. 
-                <a href="{% url 'crear_espacio' %}" class="text-primary">¡Crea uno nuevo!</a>
-            </p>
+        <div class="d-flex justify-content-center mt-4">
+            <div class="card border-0 shadow-sm p-3 text-center" style="background-color: rgba(255, 255, 255, 0.8); border-radius: 10px;">
+                <p class="mb-2 fw-semibold text-dark">
+                    No tienes espacios de trabajo.
+                </p>
+            </div>
+        </div>
+        
         {% endfor %}
     </div>
 </div>

@@ -4,33 +4,25 @@
 <div class="container mt-5">
     <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px;">
         <div class="card-header bg-primary text-white text-center">
-            <h3 class="h4 mb-0">Editar Tablero: {{ tablero.nombre }}</h3>
+            <h3 class="h4 mb-0">Editar Nombre del Espacio</h3>
         </div>
         <div class="card-body p-4">
-            <form method="post" class="needs-validation" novalidate>
+            <form method="POST" class="needs-validation" novalidate>
                 {% csrf_token %}
                 
                 <!-- Campos del formulario -->
                 <div class="form-group mb-3">
-                    <label for="id_nombre" class="form-label">Nombre del Tablero</label>
-                    <input type="text" class="form-control" id="id_nombre" name="nombre" value="{{ tablero.nombre }}" required>
+                    <label for="{{ form.nombre.id_for_label }}" class="form-label">Nuevo Nombre del Espacio</label>
+                    {{ form.nombre }}
                     <div class="invalid-feedback">
-                        Por favor, ingresa un nombre para el tablero.
-                    </div>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="id_descripcion" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="id_descripcion" name="descripcion" rows="3" required>{{ tablero.descripcion }}</textarea>
-                    <div class="invalid-feedback">
-                        Por favor, ingresa una descripción para el tablero.
+                        Por favor, ingresa un nuevo nombre para el espacio de trabajo.
                     </div>
                 </div>
 
                 <!-- Botones de acción -->
                 <div class="d-flex justify-content-between mt-4">
                     <button type="submit" class="btn btn-primary px-4">Guardar Cambios</button>
-                    <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-outline-secondary px-4">Cancelar</a>
+                    <a href="{% url 'detalle_espacio' espacio.id %}" class="btn btn-secondary px-4">Cancelar</a>
                 </div>
             </form>
         </div>
@@ -68,15 +60,18 @@
         border-color: #80bdff;
     }
 
-    .container .btn-primary {
-        background: linear-gradient(90deg, #05376d, #0a6cd3);
-        border: none;
+    .container .btn {
         font-weight: bold;
         font-size: 1rem;
-        color: #ffffff;
         border-radius: 8px;
         padding: 10px 20px;
         transition: all 0.3s ease;
+    }
+
+    .container .btn-primary {
+        background: linear-gradient(90deg, #05376d, #0a6cd3);
+        border: none;
+        color: #ffffff;
     }
     
     .container .btn-primary:hover {
@@ -85,22 +80,16 @@
         box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
     }
 
-    .container .btn-outline-secondary {
-        font-weight: bold;
-        font-size: 1rem;
-        border-radius: 8px;
-        padding: 10px 20px;
-        transition: all 0.3s ease;
-        color: #6c757d;
-        border-color: #6c757d;
+    .container .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+        color: #ffffff;
     }
 
-    .container .btn-outline-secondary:hover {
-        color: #fff;
-        background-color: #6c757d;
-        border-color: #6c757d;
+    .container .btn-secondary:hover {
+        background-color: #5a6268;
         transform: scale(1.01);
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 10px rgba(108, 117, 125, 0.5);
     }
 </style>
 {% endblock %}

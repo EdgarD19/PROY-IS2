@@ -4,15 +4,26 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-8 mx-auto">
-            <!-- Título del espacio de trabajo -->
-            <h2 class="text-primary mb-3" style="font-family: 'Arial', sans-serif; font-weight: bold; text-align: left;">{{ espacio.nombre }}</h2>
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <!-- Título del espacio de trabajo -->
+                <h2 class="text-primary mb-0" style="font-family: 'Arial', sans-serif; font-weight: bold; text-align: left;">
+                    {{ espacio.nombre }}
+                </h2>
             
+                <!-- Modificar el nombre -->
+                {% if request.user == espacio.propietario %}
+                    <a href="{% url 'cambiar_nombre_espacio' espacio.id %}" class="btn btn-outline-success btn-lg">Editar nombre del Espacio</a>
+                {% endif %}
+            </div>
+            
+
             <!-- Detalles del espacio de trabajo -->
             <div class="mb-4" style="font-size: 1.1rem; color: #555;">
                 <p><strong>Propietario:</strong> {{ espacio.propietario.username }}</p>
                 <p><strong>Fecha de creación:</strong> {{ espacio.fecha_creacion }}</p>
                 <p style="color: {% if espacio.activo %}#28a745{% else %}#dc3545{% endif %};"><strong>Estado:</strong> {% if espacio.activo %}Activo{% else %}Inactivo{% endif %}</p>
             </div>
+            
 
             <!-- Usuarios asignados -->
             <h3 class="mb-3" style="font-size: 1.2rem; font-weight: bold; color: #444;">Usuarios asignados:</h3>

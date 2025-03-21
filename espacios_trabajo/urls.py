@@ -6,6 +6,7 @@ urlpatterns = [
     path('crear/', views.crear_espacio, name='crear_espacio'),
     path('<int:espacio_id>/', views.detalle_espacio, name='detalle_espacio'),
     path('<int:espacio_id>/cambiar-estado/', views.cambiar_estado_espacio, name='cambiar_estado_espacio'),
+    path('<int:espacio_id>/cambiar-nombre/', views.cambiar_nombre_espacio, name='cambiar_nombre_espacio'),
     #usuarios
     path('<int:espacio_id>/agregar-usuarios/', views.agregar_usuarios, name='agregar_usuarios'),
     path('<int:espacio_id>/eliminar-usuarios/', views.eliminar_usuarios, name='eliminar_usuarios'),

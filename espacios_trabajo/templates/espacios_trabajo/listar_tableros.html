@@ -14,8 +14,10 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ tablero.nombre }}</h5>
                             <p class="card-text">{{ tablero.descripcion|truncatewords:20 }}</p>
-                            <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-primary">Ver Tablero</a>
-                            <a href="{% url 'eliminar_tablero' tablero.id %}" class="btn btn-danger">Eliminar tablero</a>
+                            <div class="d-flex justify-content-between mt-3">
+                                <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-primary">Ver Tablero</a>
+                                <a href="{% url 'eliminar_tablero' tablero.id %}" class="btn btn-danger">Eliminar tablero</a>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -2,68 +2,111 @@
 
 {% block extra_head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    .chart-container {
+        display: none; /* Ocultar gráficos inicialmente */
+        transition: opacity 0.3s ease-in-out; /* Efecto de suavidad */
+        opacity: 0;
+    }
+
+    .chart-container.active {
+        display: block;
+        opacity: 1; /* Mostrar gráficos con efecto */
+    }
+
+    .card-header {
+        cursor: pointer;
+        font-weight: bold;
+        background-color: #007bff;
+        color: white;
+        padding: 15px;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+    .card-header:hover {
+        background-color: #0056b3;
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    h2 {
+        color: #343a40;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h2>Dashboard - {{ tablero.nombre }}</h2>
-    <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-secondary mt-3 ">Volver al Tablero</a>
+    <h2 class="mb-4">Dashboard - {{ tablero.nombre }}</h2>
+    <a href="{% url 'detalle_tablero' tablero.id %}" class="btn btn-secondary mb-4">Volver al Tablero</a>
     
-    <div class="row mt-4">
-        <!-- Columna de títulos y gráficos en la mitad izquierda -->
+    <div class="row justify-content-center">
+        <!-- Columna de gráficos -->
         <div class="col-md-6">
             <!-- Distribución de Tareas -->
-            <div class="card mb-3">
+            <div class="card mb-4">
                 <div class="card-header" onclick="toggleChart('tareasDistribucionChart')">
                     Distribución de Tareas por Estado
                 </div>
                 <div class="card-body chart-container" id="tareasDistribucionContainer">
-                    <canvas id="tareasDistribucionChart"></canvas>
+                    <canvas id="tareasDistribucionChart" style="max-height: 250px;"></canvas>
                 </div>
             </div>
-            
+    
             <!-- Tareas por Usuario Asignado -->
-            <div class="card mb-3">
+            <div class="card mb-4">
                 <div class="card-header" onclick="toggleChart('tareasUsuarioChart')">
                     Tareas por Usuario Asignado
                 </div>
                 <div class="card-body chart-container" id="tareasUsuarioContainer">
-                    <canvas id="tareasUsuarioChart"></canvas>
+                    <canvas id="tareasUsuarioChart" style="max-height: 250px;"></canvas>
                 </div>
             </div>
-            
+    
             <!-- Estado de Vencimiento de Tareas -->
-            <div class="card mb-3">
+            <div class="card mb-4">
                 <div class="card-header" onclick="toggleChart('tareasAtrasadasChart')">
-                    Estado de Vencimiento de Tareas
+                    Distribución de Tareas Atrasadas
                 </div>
                 <div class="card-body chart-container" id="tareasAtrasadasContainer">
-                    <canvas id="tareasAtrasadasChart"></canvas>
+                    <canvas id="tareasAtrasadasChart" style="max-height: 250px;"></canvas>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
+    
+    
 </div>
-
-<style>
-    .chart-container {
-        display: none; /* Ocultar los gráficos inicialmente */
-    }
-    .card-header {
-        cursor: pointer; /* Indicar que es clickable */
-        font-weight: bold;
-        color: #007bff;
-    }
-</style>
 
 <script>
     function toggleChart(chartId) {
-        // Alternar visibilidad del gráfico al hacer clic en el título
-        const chartContainer = document.getElementById(chartId).parentElement;
-        chartContainer.style.display = chartContainer.style.display === 'none' ? 'block' : 'none';
-    }
+    const chartContainer = document.getElementById(chartId).parentElement;
 
-    // Configuración de los gráficos
+    // Mostrar el gráfico seleccionado
+    chartContainer.classList.toggle('active');
+
+    // Desplazar la pantalla para centrar el gráfico
+    if (chartContainer.classList.contains('active')) {
+        chartContainer.scrollIntoView({
+            behavior: 'smooth', // Desplazamiento suave
+            block: 'center'    // Centrar en la pantalla
+        });
+    }
+}
+    // Configuración de gráficos
     const distribucionData = {{ distribucion_tareas|safe }};
     const usuariosData = {{ tareas_por_usuario|safe }};
     const vencimientoData = {{ estado_vencimiento|safe }};
@@ -85,10 +128,7 @@
             responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
-                    }
+                    beginAtZero: true
                 }
             }
         }
@@ -134,5 +174,4 @@
         }
     });
 </script>
-
-{% endblock %} 
+{% endblock %}

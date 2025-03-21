@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, JsonResponse
 from .models import EspacioTrabajo, Tablero, Lista, Tarjeta
-from .forms import EspacioTrabajoForm, AgregarUsuarioForm, EliminarUsuarioForm, TableroForm, ListaForm, TarjetaForm
+from .forms import EspacioTrabajoForm, AgregarUsuarioForm, EliminarUsuarioForm, TableroForm, ListaForm, TarjetaForm, CambiarNombreEspacioForm
 from django.db.models import Q
 from django.views.decorators.http import require_POST
 import json
 from django.utils import timezone
+from django.contrib import messages
 
 # Create your views here.
 
@@ -372,3 +373,24 @@ def dashboard_tablero(request, tablero_id):
     }
 
     return render(request, 'espacios_trabajo/dashboard.html', context)
+
+@login_required
+def cambiar_nombre_espacio(request, espacio_id):
+    espacio = get_object_or_404(EspacioTrabajo, id=espacio_id)
+
+    # Verificar si el usuario es propietario
+    if request.user != espacio.propietario:
+        return HttpResponseForbidden("No tienes permiso para cambiar el nombre de este espacio de trabajo.")
+
+    if request.method == 'POST':
+        form = CambiarNombreEspacioForm(request.POST, instance=espacio)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "El nombre del espacio de trabajo se ha actualizado correctamente.")
+            return redirect('detalle_espacio', espacio_id=espacio.id)
+        else:
+            messages.error(request, "Por favor, corrige los errores en el formulario.")
+    else:
+        form = CambiarNombreEspacioForm(instance=espacio)
+
+    return render(request, 'espacios_trabajo/cambiar_nombre_espacio.html', {'form': form, 'espacio': espacio})

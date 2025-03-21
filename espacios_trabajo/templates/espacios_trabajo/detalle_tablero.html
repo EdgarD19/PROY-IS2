@@ -52,52 +52,59 @@
         {% for lista in listas %}
             <div class="lista-item" data-lista-id="{{ lista.id }}">
                 <div class="card shadow-sm {% if lista.sobre_wip %}border-danger{% else %}border-light{% endif %} rounded">
+
                     <div class="card-header d-flex justify-content-between align-items-center bg-white border-bottom {% if lista.sobre_wip %}text-danger{% else %}text-secondary{% endif %}">
                         <h5 class="mb-0">{{ lista.nombre }}</h5>
                         <span class="badge {% if lista.sobre_wip %}bg-danger{% else %}bg-primary{% endif %} rounded-pill">Max WIP: {{ lista.max_wip }}</span>
                     </div>
+
                     <div class="card-body bg-light">
+
                         {% if lista.sobre_wip %}
                             <div class="alert alert-warning d-flex align-items-center p-2">
                                 <i class="fas fa-exclamation-circle me-2"></i> ¡Alerta! Límite WIP excedido.
                             </div>
                         {% endif %}
-                    <div class="tarjetas-lista" data-lista-id="{{ lista.id }}">
-                        {% for tarjeta in lista.tarjetas_filtradas %}
-                            <div class="card mb-3 {% if tarjeta.esta_atrasada %}bg-warning text-dark{% else %}bg-white{% endif %} shadow-sm" data-tarjeta-id="{{ tarjeta.id }}">
-                                <div class="card-body p-3">
-                                    <!-- Título oscuro de la tarjeta -->
-                                    <h6 class="card-title mb-2 text-dark font-weight-bold">{{ tarjeta.nombre }}</h6>
-                                    
-                                    <!-- Descripción de la tarjeta -->
-                                    <p class="card-text small text-muted">{{ tarjeta.descripcion|truncatewords:10 }}</p>
-                                    
-                                    <!-- Información de vencimiento y asignado en vertical -->
-                                    <div class="d-flex flex-column mt-3">
-                                        <small class="text-muted">Vencimiento: {{ tarjeta.fecha_vencimiento|default:"No establecido" }}</small>
-                                        <small class="text-muted">Asignado a: {{ tarjeta.usuario_asignado|default:"No asignado" }}</small>
-                                    </div>
-                                    
-                                    <!-- Etiqueta, si existe -->
-                                    {% if tarjeta.etiqueta %}
-                                        <span class="badge bg-info mt-2">{{ tarjeta.etiqueta }}</span>
-                                    {% endif %}
-                                    
-                                    <!-- Botones de acción -->
-                                    <div class="mt-3 d-flex gap-2">
-                                        <a href="{% url 'editar_tarjeta' tarjeta.id %}" class="btn btn-sm btn-outline-primary">Editar</a>
-                                        <a href="{% url 'eliminar_tarjeta' tarjeta.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+
+                        <div class="tarjetas-lista" data-lista-id="{{ lista.id }}">
+                            {% for tarjeta in lista.tarjetas_filtradas %}
+                                <div class="card mb-3 {% if tarjeta.esta_atrasada %}bg-warning text-dark{% else %}bg-white{% endif %} shadow-sm" data-tarjeta-id="{{ tarjeta.id }}">
+                                    <div class="card-body p-3">
+                                        <!-- Título oscuro de la tarjeta -->
+                                        <h6 class="card-title mb-2 text-dark font-weight-bold">{{ tarjeta.nombre }}</h6>
+                                        
+                                        <!-- Descripción de la tarjeta -->
+                                        <p class="card-text small text-muted">{{ tarjeta.descripcion|truncatewords:10 }}</p>
+                                        <small class="text-muted d-block mt-2">Creado: {{ tarjeta.fecha_creacion|date:"d/m/Y H:i" }}</small>
+                                        <!-- Información de vencimiento y asignado en vertical -->
+                                        <div class="d-flex flex-column mt-3">
+                                            <small class="text-muted">Vencimiento: {{ tarjeta.fecha_vencimiento|default:"No establecido" }}</small>
+                                            <small class="text-muted">Asignado a: {{ tarjeta.usuario_asignado|default:"No asignado" }}</small>
+                                        </div>
+                                        
+                                        <!-- Etiqueta, si existe -->
+                                        {% if tarjeta.etiqueta %}
+                                            <span class="badge bg-info mt-2">{{ tarjeta.etiqueta }}</span>
+                                        {% endif %}
+                                        
+                                        <!-- Botones de acción -->
+                                        <div class="mt-3 d-flex gap-2">
+                                            <a href="{% url 'editar_tarjeta' tarjeta.id %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                                            <a href="{% url 'eliminar_tarjeta' tarjeta.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+
                     </div>
                         <a href="{% url 'crear_tarjeta' lista.id %}" class="btn btn-sm btn-success mt-3 w-100">Agregar Tarjeta</a>
                     </div>
+
                     <div class="card-footer bg-white d-flex justify-content-between">
                         <a href="{% url 'editar_lista' lista.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
                         <a href="{% url 'eliminar_lista' lista.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
                     </div>
+
                 </div>
             </div>
         {% empty %}
@@ -210,3 +217,4 @@
     });
 </script>
 {% endblock %}
+

@@ -70,3 +70,11 @@ class TarjetaForm(forms.ModelForm):
         super(TarjetaForm, self).__init__(*args, **kwargs)
         if espacio_trabajo:
             self.fields['usuario_asignado'].queryset = espacio_trabajo.usuarios.all()
+
+class CambiarNombreEspacioForm(forms.ModelForm):
+    class Meta:
+        model = EspacioTrabajo
+        fields = ['nombre']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nuevo nombre del espacio'}),
+        }

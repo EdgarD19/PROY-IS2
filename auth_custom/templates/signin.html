@@ -1,47 +1,45 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% load socialaccount %}
 
-{% block title %} Iniciar Sesión {% endblock %}
+{% block title %}Iniciar Sesión{% endblock %}
 
 {% block content %}
 
 <main class="container">
     <div class="row justify-content-center mt-5">
-        <section class="col-md-6 col-lg-4">
-            <div class="card shadow-sm">
+        <section class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-0 rounded-3">
                 <div class="card-body">
+                    <h2 class="text-center mb-4 fw-bold text-primary">Inicia Sesión</h2>
+                    {{ error }}
                     <form action="" method="POST">
                         {% csrf_token %}
-                        <h2 class="text-center mb-4">Iniciar Sesión</h2>
-                        {{ error }}
-                        
                         <div class="mb-3">
-                            <label for="username" class="form-label">Nombre de usuario:</label>
-                            <input type="text" name="username" class="form-control" id="username" placeholder="Nombre de usuario" required>
+                            <label for="username" class="form-label fw-semibold">Nombre de usuario:</label>
+                            <input type="text" name="username" class="form-control border-primary" id="username" placeholder="Ingrese su usuario" required>
                         </div>
-
                         <div class="mb-3">
-                            <label for="password" class="form-label">Contraseña:</label>
-                            <input type="password" name="password" class="form-control" id="password" placeholder="Contraseña" required>
+                            <label for="password" class="form-label fw-semibold">Contraseña:</label>
+                            <input type="password" name="password" class="form-control border-primary" id="password" placeholder="Ingrese su contraseña" required>
                         </div>
-
-                        <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                        <button type="submit" class="btn btn-primary w-100 py-2">Iniciar Sesión</button>
                     </form>
-                    
-                    <div class="mt-3 text-center">
-                        <p>O inicia sesión con:</p>
-                        <a href="{% provider_login_url 'google' %}?next={{ request.GET.next|default:'/' }}" class="btn btn-danger w-100 mb-2">
-                            <i class="fab fa-google me-2"></i> Google
+                    <!-- <div class="mt-4 text-center">
+                        <p class="mb-2">O inicia sesión con:</p>
+                        <a href="{% provider_login_url 'google' %}?next={{ request.GET.next|default:'/' }}" class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center">
+                            <i class="fab fa-google me-2"></i> Continuar con Google
                         </a>
-                        <!-- Agrega más botones de autenticación si es necesario -->
-                    </div>
+                    </div> -->
                 </div>
+            </div>
+            <div class="text-center mt-3">
+                <p>¿No tienes una cuenta? <a href="{% url 'signup' %}" class="text-primary fw-semibold">Regístrate</a></p>
             </div>
         </section>
     </div>
 </main>
 
-<!-- Agrega íconos con FontAwesome si es necesario -->
+<!-- Agregar íconos con FontAwesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 {% endblock %}

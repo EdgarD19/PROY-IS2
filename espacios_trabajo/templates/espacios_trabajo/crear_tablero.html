@@ -1,35 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5" id="crear-tablero-formulario">
-    <div class="card shadow-lg border-0 mx-auto" style="max-width: 500px;">
-        <div class="card-header bg-primary text-white">
-            <h2 class="h4 mb-0">Crear Nuevo Tablero en {{ espacio.nombre }}</h2>
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-header bg-primary text-white text-center">
+            <h3 class="h4 mb-0">Crear Nuevo Tablero en {{ espacio.nombre }}</h3>
         </div>
         <div class="card-body p-4">
             <form method="post" class="needs-validation" novalidate>
                 {% csrf_token %}
-
-                <!-- Campo de nombre -->
+                
+                <!-- Campos del formulario -->
                 <div class="form-group mb-3">
-                    <label for="id_nombre" class="form-label">Nombre</label>
+                    <label for="id_nombre" class="form-label">Nombre del Tablero</label>
                     <input type="text" class="form-control" id="id_nombre" name="nombre" required>
                     <div class="invalid-feedback">
-                        Por favor, ingresa un nombre válido.
+                        Por favor, ingresa un nombre para el tablero.
                     </div>
                 </div>
 
-                <!-- Campo de descripción -->
                 <div class="form-group mb-3">
                     <label for="id_descripcion" class="form-label">Descripción</label>
                     <textarea class="form-control" id="id_descripcion" name="descripcion" rows="3" required></textarea>
                     <div class="invalid-feedback">
-                        Por favor, ingresa una descripción válida.
+                        Por favor, ingresa una descripción para el tablero.
                     </div>
                 </div>
 
                 <!-- Botones de acción -->
-                <div class="d-flex justify-content-end mt-4 gap-2">
+                <div class="d-flex justify-content-between mt-4">
                     <button type="submit" class="btn btn-primary px-4">Crear Tablero</button>
                     <a href="{% url 'listar_tableros' espacio.id %}" class="btn btn-outline-secondary px-4">Cancelar</a>
                 </div>
@@ -39,35 +38,70 @@
 </div>
 
 <style>
-    /* Estilos específicos del formulario */
-    #crear-tablero-formulario .card {
-        max-width: 500px; /* Ancho máximo de la tarjeta */
+    .container .card {
+        max-width: 600px;
+        border-radius: 12px;
+        overflow: hidden;
     }
 
-    #crear-tablero-formulario .form-group label {
+    .container .card-header {
+        border-bottom: none;
+        background: linear-gradient(90deg, #05376d, #0a6cd3);
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+
+    .container .form-group label {
         font-weight: 600;
         color: #333;
-        margin-bottom: 5px;
     }
 
-    #crear-tablero-formulario .form-control:focus {
+    .container .form-control {
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    .container .form-control:focus {
         box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
         border-color: #80bdff;
     }
 
-    #crear-tablero-formulario .card-header {
-        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    .container .btn-primary {
+        background: linear-gradient(90deg, #05376d, #0a6cd3);
+        border: none;
+        font-weight: bold;
+        font-size: 1rem;
+        color: #ffffff;
+        border-radius: 8px;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .container .btn-primary:hover {
+        background: linear-gradient(90deg, #0a6cd3, #05376d);
+        transform: scale(1.01);
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
     }
 
-    #crear-tablero-formulario .card {
-        border-radius: 0.75rem;
+    .container .btn-outline-secondary {
+        font-weight: bold;
+        font-size: 1rem;
+        border-radius: 8px;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+        color: #6c757d;
+        border-color: #6c757d;
     }
 
-    #crear-tablero-formulario .btn-primary,
-    #crear-tablero-formulario .btn-outline-secondary {
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    .container .btn-outline-secondary:hover {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d;
+        transform: scale(1.01);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 </style>
-
-
 {% endblock %}
+
