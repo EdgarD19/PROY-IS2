@@ -30,7 +30,6 @@ Proyecto desarrollado como parte del curso de Ingeniería de Software 2.
   git clone https://github.com/EdgarD19/PROY-IS2.git
 
 2. Crear y activar entorno virtual:
-   
    python -m venv venv
    source venv/bin/activate # En Windows: venv\Scripts\activate
    
@@ -38,7 +37,7 @@ Proyecto desarrollado como parte del curso de Ingeniería de Software 2.
    pip install -r requirements.txt
 
 4. Realizar migraciones:
-    python manage.py migrate
+    python manage.py migrate ;
     python manage.py makemigrations
    
 5. Iniciar servidor de desarrollo:
