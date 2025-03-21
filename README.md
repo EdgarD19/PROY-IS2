@@ -1,0 +1,47 @@
+# Tasks - Sistema de Gestión de Tareas
+
+## 📋 Descripción
+Tasks es una aplicación web desarrollada con Django que permite gestionar tareas y proyectos de manera eficiente. 
+Proyecto desarrollado como parte del curso de Ingeniería de Software 2.
+
+## ✨ Características Principales
+- Gestión de espacios de trabajo colaborativos
+- Tableros Kanban personalizables
+- Sistema de listas con límite WIP (Work In Progress)
+- Tarjetas con asignación de usuarios y fechas de vencimiento
+- Dashboard con métricas y visualización de datos
+- Sistema de autenticación personalizado
+- Interfaz responsive y amigable
+
+## 🛠️ Tecnologías Utilizadas
+- Python 3.x
+- Django
+- Bootstrap 5
+- JavaScript
+- HTML5 & CSS3
+- SQLite3
+- Chart.js para visualizaciones
+- Font Awesome para iconos
+
+## 📦 Instalación y Configuración
+
+1. Clonar el repositorio:
+  bash
+  git clone https://github.com/EdgarD19/PROY-IS2.git
+
+2. Crear y activar entorno virtual:
+   
+   python -m venv venv
+   source venv/bin/activate # En Windows: venv\Scripts\activate
+   
+3. Instalar dependencias:
+   pip install -r requirements.txt
+
+4. Realizar migraciones:
+    python manage.py migrate
+    python manage.py makemigrations
+   
+5. Iniciar servidor de desarrollo:
+   python manage.py runserver
+   
+
