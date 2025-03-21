@@ -2,7 +2,7 @@
 
 ## 📋 Descripción
 Tasks es una aplicación web desarrollada con Django que permite gestionar tareas. 
-Proyecto desarrollado como parte del curso de Ingeniería de Software 2.
+Proyecto desarrollado como parte de la materia Ingeniería de Software 2.
 
 ## ✨ Características Principales
 - Gestión de espacios de trabajo colaborativos
