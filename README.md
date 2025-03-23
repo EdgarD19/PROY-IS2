@@ -60,7 +60,7 @@ Proyecto desarrollado como parte de la materia Ingeniería de Software 2.
    
    [![tarjetas.png](https://i.postimg.cc/C5TC7nZ4/tarjetas.png)](https://postimg.cc/xJ5bTC3k)
 
-   [![distribucion.png](https://i.postimg.cc/ZqQx9M42/distribucion.png)](https://postimg.cc/Lqz1wvq3)
+   [![distribucion.png](https://i.postimg.cc/Ssct7hZH/distribucion.png)](https://postimg.cc/bDNTpKfR)
    
    
 
