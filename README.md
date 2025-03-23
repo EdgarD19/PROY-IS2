@@ -1,7 +1,7 @@
 # Tasks - Sistema de Gestión de Tareas
 
 ## 📋 Descripción
-Tasks es una aplicación web desarrollada con Django que permite gestionar tareas. 
+Tasks es una aplicación web desarrollada con Django que permite gestionar tareas.
 Proyecto desarrollado como parte de la materia Ingeniería de Software 2.
 
 ## ✨ Características Principales
