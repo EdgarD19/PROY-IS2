@@ -33,7 +33,7 @@ Proyecto desarrollado como parte de la materia Ingeniería de Software 2.
 2. Crear y activar entorno virtual:
    python -m venv venv
    source venv/bin/activate
-   # En Windows: venv\Scripts\activate
+   Windows: venv\Scripts\activate
    
 4. Instalar dependencias:
    pip install -r requirements.txt
