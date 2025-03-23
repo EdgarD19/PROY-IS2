@@ -40,11 +40,12 @@ Proyecto desarrollado como parte de la materia Ingeniería de Software 2.
    pip install -r requirements.txt
 
 5. Realizar migraciones:
-    python manage.py makemigrations
+
+   python manage.py makemigrations
    
     python manage.py migrate
    
-6. Iniciar servidor de desarrollo:
+7. Iniciar servidor de desarrollo:
    python manage.py runserver
    
 
