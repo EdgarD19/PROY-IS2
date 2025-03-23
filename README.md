@@ -48,6 +48,19 @@ Proyecto desarrollado como parte de la materia Ingeniería de Software 2.
 7. Iniciar servidor de desarrollo:
    python manage.py runserver
 
+## 📸 CAPTURAS DE PANTALLA
+
    [![home.png](https://i.postimg.cc/8CcbzSQL/home.png)](https://postimg.cc/p9Njs3dd)
+
+   [![login.png](https://i.postimg.cc/RFnQwL0F/login.png)](https://postimg.cc/JDMkLJZV)
+
+   [![creacion-espacio.png](https://i.postimg.cc/y8VP2RLQ/creacion-espacio.png)](https://postimg.cc/BXVHKj9H)
+
+   [![espacio-trabajo.png](https://i.postimg.cc/qvjLr7Yk/espacio-trabajo.png)](https://postimg.cc/mP1MNTBq)
+   
+   [![tarjetas.png](https://i.postimg.cc/C5TC7nZ4/tarjetas.png)](https://postimg.cc/xJ5bTC3k)
+
+   [![distribucion.png](https://i.postimg.cc/ZqQx9M42/distribucion.png)](https://postimg.cc/Lqz1wvq3)
+   
    
 
