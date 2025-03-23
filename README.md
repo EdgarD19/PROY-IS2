@@ -47,5 +47,7 @@ Proyecto desarrollado como parte de la materia Ingeniería de Software 2.
    
 7. Iniciar servidor de desarrollo:
    python manage.py runserver
+
+   [![home.png](https://i.postimg.cc/8CcbzSQL/home.png)](https://postimg.cc/p9Njs3dd)
    
 
